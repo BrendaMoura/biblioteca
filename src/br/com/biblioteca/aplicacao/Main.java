@@ -73,14 +73,18 @@ public class Main {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Livro livro = new Livro();
-				livro.setTitulo(titulo.getText().toString());
-				livro.setAutor(autor.getText().toString());
-				livro.setEditora(editora.getText().toString());
-				
-				livroDAO.save(livro);
-				JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
-				telaInicial();
+				if(titulo.getText() == null || titulo.getText().trim().isEmpty() || autor.getText() == null || autor.getText().trim().isEmpty() || editora.getText() == null || editora.getText().trim().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos ou volte a tela inicial!");
+				}else {
+					Livro livro = new Livro();
+					livro.setTitulo(titulo.getText().toString());
+					livro.setAutor(autor.getText().toString());
+					livro.setEditora(editora.getText().toString());
+					
+					livroDAO.save(livro);
+					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
+					telaInicial();
+				}
 			}
 		});
 		btnAdicionar.setBounds(440, 250, 90, 50);
