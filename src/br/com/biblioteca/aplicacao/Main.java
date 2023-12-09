@@ -23,6 +23,10 @@ public class Main {
 	static LivroDAO livroDAO;
 	static List<Livro> livros;
 	
+	public static boolean apenasLetras(String campo) {
+	    return campo.matches("[a-zA-Z]+");
+	}
+	
 	public static void adicionarLivro() {		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -72,9 +76,23 @@ public class Main {
 		btnAdicionar.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(titulo.getText() == null || titulo.getText().trim().isEmpty() || autor.getText() == null || autor.getText().trim().isEmpty() || editora.getText() == null || editora.getText().trim().isEmpty()){
-					JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos ou volte a tela inicial!");
+			public void actionPerformed(ActionEvent event) {
+				String jtitulo = titulo.getText().replaceAll("\\s", "");
+				boolean t = jtitulo == null || jtitulo.isEmpty() || jtitulo.length() > 30 || !apenasLetras(jtitulo);
+				
+				String jautor = autor.getText().replaceAll("\\s", "");;
+				boolean a = jautor == null || jautor.isEmpty() || jautor.length() > 30 || !apenasLetras(jautor);
+				
+				String jeditora = editora.getText().replaceAll("\\s", "");
+				boolean e = jeditora == null || jeditora.isEmpty() || jeditora.length() > 30 || !apenasLetras(jeditora);
+				
+				if(t || a || e){
+					String mensagem = "<html><body width='300'>" +
+	                         "Por favor, preencha todos os campos obrigatórios para continuar. "
+	                         + "Certifique-se de que cada campo contenha no máximo 30 caracteres, "
+	                         + "devendo serem todos letras. Obrigado!</body></html>";
+
+					JOptionPane.showMessageDialog(null, mensagem);
 				}else {
 					Livro livro = new Livro();
 					livro.setTitulo(titulo.getText().toString());
